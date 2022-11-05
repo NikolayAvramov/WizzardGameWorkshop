@@ -14,7 +14,8 @@ function onKeyup(e) {
 }
 let startPos = wizzardObj.posX + wizzardObj.width;
 let ballEl = document.querySelectorAll(".fire-ball");
-function gameAction() {
+let timer = 1500;
+function gameAction(timestamp) {
 	let currentHeight = wizzardObj.posY;
 	let currentWidth = wizzardObj.posX;
 	const wizzardElement = document.getElementById("wizzard");
@@ -52,9 +53,13 @@ function gameAction() {
 			fireBall.remove();
 		}
 	});
-	setTimeout(createBug, 1000);
+	console.log(timestamp);
+	if (timestamp > timer) {
+		timer += Math.random() * 1500;
+		createBug();
+	}
 	document.addEventListener("keypress", onKeyDown);
-	window.requestAnimationFrame(gameAction);
+	window.requestAnimationFrame((timestamp) => gameAction(timestamp));
 }
 function addFireBall(wizzardObj) {
 	let ball = document.createElement("div");
