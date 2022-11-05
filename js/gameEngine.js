@@ -58,6 +58,10 @@ function gameAction(timestamp) {
 		timer += Math.random() * 1500;
 		createBug();
 	}
+	document.querySelectorAll(".bug").forEach((bug) => {
+		let pos = parseInt(bug.style.left);
+		bug.style.left = pos - 5 + "px";
+	});
 	document.addEventListener("keypress", onKeyDown);
 	window.requestAnimationFrame((timestamp) => gameAction(timestamp));
 }
