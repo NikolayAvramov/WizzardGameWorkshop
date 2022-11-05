@@ -53,14 +53,19 @@ function gameAction(timestamp) {
 			fireBall.remove();
 		}
 	});
-	console.log(timestamp);
+	//console.log(timestamp);
 	if (timestamp > timer) {
 		timer += Math.random() * 1500;
 		createBug();
 	}
 	document.querySelectorAll(".bug").forEach((bug) => {
 		let pos = parseInt(bug.style.left);
-		bug.style.left = pos - 5 + "px";
+		if (pos < 0) {
+			bug.remove();
+		} else {
+			console.log(pos);
+			bug.style.left = pos - 5 + "px";
+		}
 	});
 	document.addEventListener("keypress", onKeyDown);
 	window.requestAnimationFrame((timestamp) => gameAction(timestamp));
