@@ -6,12 +6,14 @@ const displayWidth = gameAreas.clientWidth;
 console.log(displayHeight);
 function onKeyDown(e) {
 	keys[e.code] = true;
-	console.log(keys);
+	//console.log(keys);
 }
 function onKeyup(e) {
 	keys[e.code] = false;
-	console.log(keys);
+	//	console.log(keys);
 }
+let startPos = wizzardObj.posX + wizzardObj.width;
+let ballEl = document.querySelectorAll(".fire-ball");
 function gameAction() {
 	let currentHeight = wizzardObj.posY;
 	let currentWidth = wizzardObj.posX;
@@ -35,10 +37,38 @@ function gameAction() {
 	if (keys.Space) {
 		wizzardElement.classList.add("wizzard-fire");
 		wizzardElement.classList.remove("wizzard");
+		addFireBall(wizzardObj);
 	} else {
 		wizzardElement.classList.remove("wizzard-fire");
 		wizzardElement.classList.add("wizzard");
 	}
+	ballEl.forEach((fireBall) => {
+		if (fireBallObj.x < displayWidth) {
+			fireBallObj.x += 0.5;
+			console.log(fireBallObj);
+			fireBall.style.left = fireBallObj.x + "px";
+			console.log("sdfee");
+		} else {
+			fireBall.remove();
+		}
+	});
+	setTimeout(createBug, 1000);
 	document.addEventListener("keypress", onKeyDown);
 	window.requestAnimationFrame(gameAction);
+}
+function addFireBall(wizzardObj) {
+	let ball = document.createElement("div");
+	ball.classList.add("fire-ball");
+	ball.style.top = wizzardObj.posY + wizzardObj.height / 3 - 5 + "px";
+	fireBallObj.x = wizzardObj.posX + wizzardObj.width;
+	ball.style.left = fireBallObj.x + "px";
+	gameArea.appendChild(ball);
+}
+function createBug() {
+	let divBug = document.createElement("div");
+	divBug.classList.add("bug");
+	divBug.style.left = displayWidth - bugObj.width + "px";
+	divBug.style.top =
+		Math.floor(Math.random() * (displayHeight - bugObj.height)) + "px";
+	gameArea.appendChild(divBug);
 }

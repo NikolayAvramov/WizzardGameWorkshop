@@ -3,6 +3,7 @@ const gameArea = document.querySelector(".game-area");
 const gameOver = document.querySelector(".game-over");
 const score = document.querySelector(".score");
 const wizzard = document.createElement("div");
+
 // let wizzardObj = {
 // 	posY: Math.floor(Math.random() * 90) + "%",
 // 	posX: Math.floor(Math.random() * 50) + "%",

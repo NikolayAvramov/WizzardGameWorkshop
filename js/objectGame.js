@@ -6,3 +6,13 @@ let wizzardObj = {
 	speed: 5,
 };
 let keys = {};
+let fireBallObj = {
+	width: 30,
+	height: 35,
+	speed: 5,
+};
+let bugObj = {
+	width: 60,
+	height: 60,
+	speed: 5,
+};

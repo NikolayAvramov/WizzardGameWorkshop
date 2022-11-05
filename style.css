@@ -46,3 +46,16 @@ body {
 	background-image: url("/images/wizard-fire.png");
 	background-size: cover;
 }
+.fire-ball {
+	width: 40px;
+	height: 35px;
+	position: absolute;
+	background-image: url("/images/fire-ball.png");
+}
+.bug {
+	width: 60px;
+	height: 60px;
+	background-image: url("./images/bug.png");
+	background-size: cover;
+	position: absolute;
+}
