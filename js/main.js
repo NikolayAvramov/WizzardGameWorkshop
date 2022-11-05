@@ -1,8 +1,9 @@
 const startGame = document.querySelector(".game-start");
 const gameArea = document.querySelector(".game-area");
-const gameOver = document.querySelector(".game-over");
+const gameOverArea = document.querySelector(".game-over");
 const score = document.querySelector(".score");
 const wizzard = document.createElement("div");
+gameOverArea.classList.add("hidden");
 
 // let wizzardObj = {
 // 	posY: Math.floor(Math.random() * 90) + "%",
@@ -16,7 +17,6 @@ function onGameStart() {
 	wizzard.style.top = wizzardObj.posY + "px";
 	wizzard.style.left = wizzardObj.posX + "px";
 	gameArea.appendChild(wizzard);
-
 	window.requestAnimationFrame(gameAction);
 }
 

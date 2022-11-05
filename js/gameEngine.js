@@ -15,7 +15,7 @@ function onKeyup(e) {
 	//	console.log(keys);
 }
 let startPos = wizzardObj.posX + wizzardObj.width;
-
+let gameOver = false;
 let timer = 1500;
 let bugSpawnInterval = 0;
 function gameAction(timestamp) {
@@ -43,7 +43,7 @@ function gameAction(timestamp) {
 		wizzardElement.classList.remove("wizzard");
 		if (timestamp > bugSpawnInterval) {
 			addFireBall(wizzardObj);
-			bugSpawnInterval += 300;
+			bugSpawnInterval += 500;
 		}
 	} else {
 		wizzardElement.classList.remove("wizzard-fire");
@@ -78,10 +78,14 @@ function gameAction(timestamp) {
 
 	bugEl.forEach((bug) => {
 		let pos = parseInt(bug.style.left);
+
+		if (detectTouch(wizzardElement, bug)) {
+			gameOver = true;
+		}
 		if (pos < 0) {
 			bug.remove();
 		} else {
-			bug.style.left = pos - 5 + "px";
+			bug.style.left = pos - 3 + "px";
 		}
 	});
 
@@ -91,7 +95,12 @@ function gameAction(timestamp) {
 	}
 
 	document.addEventListener("keypress", onKeyDown);
-	window.requestAnimationFrame((timestamp) => gameAction(timestamp));
+	if (gameOver) {
+		gameArea.classList.add("hidden");
+		gameOverArea.classList.remove("hidden");
+	} else {
+		window.requestAnimationFrame((timestamp) => gameAction(timestamp));
+	}
 }
 function addFireBall(wizzardObj) {
 	let ball = document.createElement("div");
