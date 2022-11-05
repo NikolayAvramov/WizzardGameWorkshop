@@ -3,6 +3,7 @@ document.addEventListener("keyup", onKeyup);
 const gameAreas = document.querySelector(".game-area");
 const displayHeight = gameAreas.clientHeight;
 const displayWidth = gameAreas.clientWidth;
+const points = document.querySelector(".score");
 console.log(displayHeight);
 function onKeyDown(e) {
 	keys[e.code] = true;
@@ -13,7 +14,7 @@ function onKeyup(e) {
 	//	console.log(keys);
 }
 let startPos = wizzardObj.posX + wizzardObj.width;
-let ballEl = document.querySelectorAll(".fire-ball");
+
 let timer = 1500;
 function gameAction(timestamp) {
 	let currentHeight = wizzardObj.posY;
@@ -43,27 +44,31 @@ function gameAction(timestamp) {
 		wizzardElement.classList.remove("wizzard-fire");
 		wizzardElement.classList.add("wizzard");
 	}
-	ballEl.forEach((fireBall) => {
-		if (fireBallObj.x < displayWidth) {
-			fireBallObj.x += 0.5;
-			console.log(fireBallObj);
-			fireBall.style.left = fireBallObj.x + "px";
-			console.log("sdfee");
+
+	let bugEl = document.querySelectorAll(".bug");
+	document.querySelectorAll(".fire-ball").forEach((fireBall) => {
+		bugEl.forEach((bug) => {
+			if (detectTouch(bug, fireBall)) {
+				bug.remove();
+				fireBall.remove();
+			}
+		});
+		let pos = parseInt(fireBall.style.left);
+		if (pos < displayWidth) {
+			fireBall.style.left = pos + 5 + "px";
 		} else {
 			fireBall.remove();
 		}
 	});
-	//console.log(timestamp);
 	if (timestamp > timer) {
 		timer += Math.random() * 1500;
 		createBug();
 	}
-	document.querySelectorAll(".bug").forEach((bug) => {
+	bugEl.forEach((bug) => {
 		let pos = parseInt(bug.style.left);
 		if (pos < 0) {
 			bug.remove();
 		} else {
-			console.log(pos);
 			bug.style.left = pos - 5 + "px";
 		}
 	});
@@ -85,4 +90,15 @@ function createBug() {
 	divBug.style.top =
 		Math.floor(Math.random() * (displayHeight - bugObj.height)) + "px";
 	gameArea.appendChild(divBug);
+}
+function detectTouch(objectA, objectB) {
+	let first = objectA.getBoundingClientRect();
+	let second = objectB.getBoundingClientRect();
+	let hasTouch = !(
+		first.top > second.bottom ||
+		first.bottom < second.top ||
+		first.right < second.left ||
+		first.left > second.right
+	);
+	return hasTouch;
 }
