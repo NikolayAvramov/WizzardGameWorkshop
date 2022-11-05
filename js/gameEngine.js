@@ -3,7 +3,8 @@ document.addEventListener("keyup", onKeyup);
 const gameAreas = document.querySelector(".game-area");
 const displayHeight = gameAreas.clientHeight;
 const displayWidth = gameAreas.clientWidth;
-const points = document.querySelector(".score");
+let bestRes = document.getElementById("best");
+let currenPoint = document.getElementById("current");
 console.log(displayHeight);
 function onKeyDown(e) {
 	keys[e.code] = true;
@@ -16,6 +17,7 @@ function onKeyup(e) {
 let startPos = wizzardObj.posX + wizzardObj.width;
 
 let timer = 1500;
+let bugSpawnInterval = 0;
 function gameAction(timestamp) {
 	let currentHeight = wizzardObj.posY;
 	let currentWidth = wizzardObj.posX;
@@ -39,18 +41,25 @@ function gameAction(timestamp) {
 	if (keys.Space) {
 		wizzardElement.classList.add("wizzard-fire");
 		wizzardElement.classList.remove("wizzard");
-		addFireBall(wizzardObj);
+		if (timestamp > bugSpawnInterval) {
+			addFireBall(wizzardObj);
+			bugSpawnInterval += 300;
+		}
 	} else {
 		wizzardElement.classList.remove("wizzard-fire");
 		wizzardElement.classList.add("wizzard");
 	}
 
 	let bugEl = document.querySelectorAll(".bug");
+
+	// render fireBall
+
 	document.querySelectorAll(".fire-ball").forEach((fireBall) => {
 		bugEl.forEach((bug) => {
 			if (detectTouch(bug, fireBall)) {
 				bug.remove();
 				fireBall.remove();
+				currenPoint.textContent = Number(currenPoint.textContent) + 10;
 			}
 		});
 		let pos = parseInt(fireBall.style.left);
@@ -64,6 +73,9 @@ function gameAction(timestamp) {
 		timer += Math.random() * 1500;
 		createBug();
 	}
+
+	// render bugs
+
 	bugEl.forEach((bug) => {
 		let pos = parseInt(bug.style.left);
 		if (pos < 0) {
@@ -72,6 +84,12 @@ function gameAction(timestamp) {
 			bug.style.left = pos - 5 + "px";
 		}
 	});
+
+	// set best res
+	if (Number(bestRes.textContent) < Number(currenPoint.textContent)) {
+		bestRes.textContent = currenPoint.textContent;
+	}
+
 	document.addEventListener("keypress", onKeyDown);
 	window.requestAnimationFrame((timestamp) => gameAction(timestamp));
 }

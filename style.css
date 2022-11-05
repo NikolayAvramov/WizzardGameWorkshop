@@ -27,6 +27,11 @@ body {
 	color: white;
 	text-align: center;
 }
+.score p {
+	margin: 0;
+	display: inline-block;
+	padding-left: 100px;
+}
 .hidden {
 	display: none;
 }
