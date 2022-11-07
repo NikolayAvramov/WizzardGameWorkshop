@@ -3,13 +3,9 @@ const gameArea = document.querySelector(".game-area");
 const gameOverArea = document.querySelector(".game-over");
 const score = document.querySelector(".score");
 const wizzard = document.createElement("div");
-gameOverArea.classList.add("hidden");
 
-// let wizzardObj = {
-// 	posY: Math.floor(Math.random() * 90) + "%",
-// 	posX: Math.floor(Math.random() * 50) + "%",
-// };
 startGame.addEventListener("click", onGameStart);
+gameOverArea.classList.add("hidden");
 function onGameStart() {
 	startGame.classList.add("hidden");
 	wizzard.classList.add("wizzard");

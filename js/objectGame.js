@@ -16,3 +16,6 @@ let bugObj = {
 	height: 60,
 	speed: 5,
 };
+let gameState = {
+	gameOver: false,
+};

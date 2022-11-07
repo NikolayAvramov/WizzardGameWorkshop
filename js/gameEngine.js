@@ -15,7 +15,6 @@ function onKeyup(e) {
 	//	console.log(keys);
 }
 let startPos = wizzardObj.posX + wizzardObj.width;
-let gameOver = false;
 let timer = 1500;
 let bugSpawnInterval = 0;
 function gameAction(timestamp) {
@@ -80,12 +79,20 @@ function gameAction(timestamp) {
 		let pos = parseInt(bug.style.left);
 
 		if (detectTouch(wizzardElement, bug)) {
-			gameOver = true;
+			window.cancelAnimationFrame(gameAction);
+			gameState.gameOver = true;
 		}
 		if (pos < 0) {
 			bug.remove();
 		} else {
-			bug.style.left = pos - 3 + "px";
+			bug.style.left = pos - 2 + "px";
+			if (parseInt(currenPoint.textContent) < 500) {
+				bug.style.left = pos - 2 + "px";
+			} else if (parseInt(currenPoint.textContent) < 1000) {
+				bug.style.left = pos - 3 + "px";
+			} else {
+				bug.style.left = pos - 4 + "px";
+			}
 		}
 	});
 
@@ -95,9 +102,9 @@ function gameAction(timestamp) {
 	}
 
 	document.addEventListener("keypress", onKeyDown);
-	if (gameOver) {
-		gameArea.classList.add("hidden");
-		gameOverArea.classList.remove("hidden");
+	if (gameState.gameOver) {
+		window.cancelAnimationFrame(gameAction);
+		gameOverFunc();
 	} else {
 		window.requestAnimationFrame((timestamp) => gameAction(timestamp));
 	}
@@ -128,4 +135,20 @@ function detectTouch(objectA, objectB) {
 		first.left > second.right
 	);
 	return hasTouch;
+}
+function gameOverFunc() {
+	gameOverArea.classList.remove("hidden");
+	gameState.gameOver = false;
+	document.querySelectorAll(".bug").forEach((bug) => {
+		bug.remove();
+	});
+	document.querySelectorAll(".fire-ball").forEach((fireBall) => {
+		fireBall.remove();
+	});
+	currenPoint.textContent = 0;
+	setTimeout(() => {
+		startGame.classList.remove("hidden");
+		gameOverArea.classList.add("hidden");
+		startGame.addEventListener("click", onGameStart);
+	}, 1000);
 }
